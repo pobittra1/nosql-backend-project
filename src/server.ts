@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import app from "./app";
-import config from "./app/config";
+import mongoose from 'mongoose';
+import app from './app';
+import config from './app/config';
 
 //destructuring from config file
 const { port, database_url } = config;
@@ -15,3 +15,5 @@ async function main() {
     console.log(err);
   }
 }
+
+main();
