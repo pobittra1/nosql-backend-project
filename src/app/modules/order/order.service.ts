@@ -10,7 +10,15 @@ const getAllOrdersFromDB = async () => {
   const result = await Order.find();
   return result;
 };
+
+const searchOrdersByQueryFromDB = async (value: string) => {
+  const result = await Order.find({
+    email: { $regex: value, $options: 'i' },
+  });
+  return result;
+};
 export const orderService = {
   createOrderIntoDB,
   getAllOrdersFromDB,
+  searchOrdersByQueryFromDB,
 };
