@@ -23,6 +23,6 @@ const orderSchema = new Schema<TOrder>({
 });
 
 //create model
-const Order = model('Product', orderSchema);
+const Order = model('Order', orderSchema);
 
 export default Order;
