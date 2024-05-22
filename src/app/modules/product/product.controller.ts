@@ -38,7 +38,46 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await productService.getSingleProductFromDB(productId);
+    res.status(200).json({
+      success: true,
+      message: 'Product fetched successfully!',
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "single product can'nt get",
+      error: err,
+    });
+  }
+};
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await productService.deleteSingleProductFromDB(productId);
+    res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully!',
+      //data: result.acknowledged && null, //also we can use this
+      data: null,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "product data isn't delete",
+      error: err,
+    });
+  }
+};
+
 export const productController = {
   createProduct,
   getAllProducts,
+  getSingleProduct,
+  deleteProduct,
 };
