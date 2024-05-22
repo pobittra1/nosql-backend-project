@@ -42,7 +42,6 @@ const productSchema = new Schema<TProduct>({
   price: {
     type: Number,
     required: [true, 'you should provide price of product'],
-    trim: true,
   },
   category: {
     type: String,
