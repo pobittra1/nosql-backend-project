@@ -15,7 +15,24 @@ const createProduct = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: ' invalid data',
+      message: 'product post failed',
+      error: err,
+    });
+  }
+};
+
+const getAllProducts = async (req: Request, res: Response) => {
+  try {
+    const result = await productService.getAllProductsFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'Products fetched successfully!',
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "can'nt fatched data",
       error: err,
     });
   }
@@ -23,4 +40,5 @@ const createProduct = async (req: Request, res: Response) => {
 
 export const productController = {
   createProduct,
+  getAllProducts,
 };
