@@ -23,9 +23,17 @@ const deleteSingleProductFromDB = async (id: string) => {
   return result;
 };
 
+const searchProductByQueryFromDB = async (value: string) => {
+  const result = await Product.find({
+    name: { $regex: value, $options: 'i' },
+  });
+  return result;
+};
+
 export const productService = {
   createProductIntoDB,
   getAllProductsFromDB,
   getSingleProductFromDB,
   deleteSingleProductFromDB,
+  searchProductByQueryFromDB,
 };
