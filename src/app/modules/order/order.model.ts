@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { TOrder } from './order.interface';
 
+//create schema with model for order
 const orderSchema = new Schema<TOrder>({
   email: {
     type: String,
