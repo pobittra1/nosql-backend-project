@@ -12,6 +12,14 @@ app.use(cors());
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/orders', orderRoutes);
 
+//sample error response for not found route
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found',
+  });
+});
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
