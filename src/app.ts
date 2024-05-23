@@ -10,9 +10,9 @@ app.use(cors());
 
 //application routes
 //route of product
-app.use('/api/v1/products', productRoutes);
+app.use('/api/products', productRoutes);
 //route of order
-app.use('/api/v1/orders', orderRoutes);
+app.use('/api/orders', orderRoutes);
 
 //sample error response for not found route
 app.use((req: Request, res: Response) => {
