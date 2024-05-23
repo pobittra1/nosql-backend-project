@@ -9,7 +9,9 @@ app.use(express.json());
 app.use(cors());
 
 //application routes
+//route of product
 app.use('/api/v1/products', productRoutes);
+//route of order
 app.use('/api/v1/orders', orderRoutes);
 
 //sample error response for not found route
@@ -18,10 +20,6 @@ app.use((req: Request, res: Response) => {
     success: false,
     message: 'Route not found',
   });
-});
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
 });
 
 export default app;

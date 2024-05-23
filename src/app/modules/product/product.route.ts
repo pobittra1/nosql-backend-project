@@ -3,10 +3,10 @@ import { productController } from './product.controller';
 
 const router = express.Router();
 
+//routes of product
 router.post('/create-product', productController.createProduct);
 router.get('/', productController.getAllProducts);
 router.get('/:productId', productController.getSingleProduct);
 router.delete('/:productId', productController.deleteProduct);
-// router.get('/', productController.searchProductByQuery);
 
 export const productRoutes = router;

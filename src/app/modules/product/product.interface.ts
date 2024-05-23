@@ -1,3 +1,4 @@
+//declare some types of product data
 export type TVariants = {
   type: string;
   value: string;
