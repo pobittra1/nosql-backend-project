@@ -2,43 +2,47 @@ import { orderService } from './order.service';
 import { Request, Response } from 'express';
 import orderZodSchema from './order.validation';
 import Product from '../product/product.model';
+import { productService } from '../product/product.service';
 
 //this function for create order into db
 const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData = req.body;
-    //zod validate data
-    const zodParseData = orderZodSchema.parse(orderData);
+    const { productId, quantity } = orderData;
+    const product = await Product.findById(productId);
 
-    const result = await orderService.createOrderIntoDB(zodParseData);
-    res.status(200).json({
-      success: true,
-      message: 'Order created successfully!',
-      data: result,
-    });
-
-    //destructuring
-    const { _id, quantity } = result; //this result is order object
-    //check order id are same as product id or matching
-    const product = await Product.findById(_id);
-    //if matching....
-    if (product) {
-      product.inventory.quantity--;
-      if (product.inventory.quantity < quantity) {
-        product.inventory.inStock = false;
-        //Insufficient Quantity Error
-        res.status(500).json({
-          success: false,
-          message: 'Insufficient quantity available in inventory',
-        });
-      } else if (product.inventory.quantity > quantity) {
-        product.inventory.inStock = true;
-      }
-    } else if (!product) {
-      //order Not Found Error
-      res.status(500).json({
+    //Not Found Error
+    if (!product?._id) {
+      return res.status(500).json({
         success: false,
         message: 'Order not found',
+      });
+    }
+
+    //Insufficient Quantity Error
+    if (product.inventory.quantity < quantity) {
+      return res.status(500).json({
+        success: false,
+        message: 'Insufficient quantity available in inventory',
+      });
+    }
+
+    //zod validate data
+    const zodParseData = orderZodSchema.parse(orderData);
+    const result = await orderService.createOrderIntoDB(zodParseData);
+    if (result) {
+      //reduce quantity when create data
+      product.inventory.quantity = product.inventory.quantity - quantity;
+      if (product.inventory.quantity === 0) {
+        product.inventory.inStock = false;
+      } else {
+        product.inventory.inStock = true;
+      }
+      const checkedData = await productService.updateProductFromDB(productId);
+      res.status(200).json({
+        success: true,
+        message: 'Order created successfully!',
+        data: result,
       });
     }
   } catch (err) {
