@@ -2,7 +2,6 @@ import { orderService } from './order.service';
 import { Request, Response } from 'express';
 import orderZodSchema from './order.validation';
 import Product from '../product/product.model';
-import { productService } from '../product/product.service';
 
 //this function for create order into db
 const createOrder = async (req: Request, res: Response) => {
@@ -38,7 +37,6 @@ const createOrder = async (req: Request, res: Response) => {
       } else {
         product.inventory.inStock = true;
       }
-      const checkedData = await productService.updateProductFromDB(productId);
       res.status(200).json({
         success: true,
         message: 'Order created successfully!',
