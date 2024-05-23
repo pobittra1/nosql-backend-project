@@ -9,6 +9,7 @@ const createOrder = async (req: Request, res: Response) => {
     const orderData = req.body;
     //zod validate data
     const zodParseData = orderZodSchema.parse(orderData);
+
     const result = await orderService.createOrderIntoDB(zodParseData);
     res.status(200).json({
       success: true,

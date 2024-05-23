@@ -27,6 +27,16 @@ const deleteSingleProductFromDB = async (id: string) => {
   return result;
 };
 
+//this function for update product from db by _id
+const updateProductFromDB = async (id: string) => {
+  const result = await Product.findOneAndUpdate(
+    { _id: id },
+    { $set: { category: 'updated data' } },
+    { returnOriginal: false },
+  );
+  return result;
+};
+
 //this function for quering product from db by name value
 const searchProductByQueryFromDB = async (value: string) => {
   const result = await Product.find({
@@ -40,5 +50,6 @@ export const productService = {
   getAllProductsFromDB,
   getSingleProductFromDB,
   deleteSingleProductFromDB,
+  updateProductFromDB,
   searchProductByQueryFromDB,
 };
